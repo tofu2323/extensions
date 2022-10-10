@@ -38,7 +38,7 @@ const read = util.promisify(fs.readFile);
 const unlink = util.promisify(fs.unlink);
 
 const BIGQUERY_VALID_CHARACTERS = /^[a-zA-Z0-9_]+$/;
-const FIRESTORE_VALID_CHARACTERS = /^[^({|})]+$/;
+const FIRESTORE_VALID_CHARACTERS = /^[^(|)]+$/;
 
 const PROJECT_ID_MAX_CHARS = 6144;
 const FIRESTORE_COLLECTION_NAME_MAX_CHARS = 6144;
@@ -325,7 +325,7 @@ const run = async (): Promise<number> => {
     let query: firebase.firestore.Query;
 
     if (queryCollectionGroup) {
-      query = firebase.firestore().collectionGroup(sourceCollectionPath);
+        query = firebase.firestore().collectionGroup(sourceCollectionPath.split("/").at(-1));
     } else {
       query = firebase.firestore().collection(sourceCollectionPath);
     }
